@@ -1,6 +1,7 @@
 # Import statements
 import random
 import operator
+import matplotlib.pyplot as plt
 
 # Initialising empty agent coordinates list
 agents = []
@@ -65,10 +66,17 @@ print(agents[1][0], agents[1][1])
 
 # Calculate Euclidean distance between points
 distance = ((agents[0][0] - agents[1][0])**2 + (agents[0][1] - agents[1][1])**2)**0.5
-print("Distance of the points is", distance)
+print('Distance of the points is', distance)
 
 # Print the maximum of the two lists by the first element
 print(max(agents))
 
 # Print the maximum of the two lists by the second element
 print(max(agents, key=operator.itemgetter(1)))
+
+# Plotting the random points
+plt.ylim(0, 99)
+plt.xlim(0, 99)
+plt.scatter(agents[0][1], agents[0][0], color='red')
+plt.scatter(agents[1][1], agents[1][0], color='blue')
+plt.show()

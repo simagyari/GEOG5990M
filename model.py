@@ -1,5 +1,6 @@
 # Import statements
 import random
+import operator
 
 # Initialising empty agent coordinates list
 agents = []
@@ -65,3 +66,9 @@ print(agents[1][0], agents[1][1])
 # Calculate Euclidean distance between points
 distance = ((agents[0][0] - agents[1][0])**2 + (agents[0][1] - agents[1][1])**2)**0.5
 print("Distance of the points is", distance)
+
+# Print the maximum of the two lists by the first element
+print(max(agents))
+
+# Print the maximum of the two lists by the second element
+print(max(agents, key=operator.itemgetter(1)))

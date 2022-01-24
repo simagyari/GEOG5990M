@@ -1,17 +1,12 @@
 # Import statements
 import random
 
-
+# Initialising empty agent coordinates list
 agents = []
 
-# Assigning variables
-y0 = random.randint(0, 99)
-x0 = random.randint(0, 99)
-agents.append([y0, x0])
-
-y1 = random.randint(0, 99)
-x1 = random.randint(0, 99)
-agents.append([y1, x1])
+# Filling agent coordinate list
+agents.append([random.randint(0, 99), random.randint(0, 99)])  # Assigning y0 and x0 to the list
+agents.append([random.randint(0, 99), random.randint(0, 99)])  # Assigning y1 and x1 to the list
 
 print(agents)
 

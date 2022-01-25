@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 # Add number of agents
 num_of_agents = 10
+num_of_iterations = 100
 
 # Initialising empty agent coordinates list
 agents = []
@@ -16,29 +17,21 @@ for i in range(num_of_agents):
 print(agents)
 
 # Random movement for agent coordinates
-# Loop through every agent in the agents list
-for k in range(num_of_agents):
-    # Create random movement for y coordinate
-    if random.random() < 0.5:
-        agents[k][0] += 1
-    else:
-        agents[k][0] -= 1
-    # Create random movement for x coordinate
-    if random.random() < 0.5:
-        agents[k][1] += 1
-    else:
-        agents[k][1] -= 1
-    # Create second random movement for y coordinate
-    if random.random() < 0.5:
-        agents[k][0] += 1
-    else:
-        agents[k][0] -= 1
-    # Create second random movement for x coordinate
-    if random.random() < 0.5:
-        agents[k][1] += 1
-    else:
-        agents[k][1] -= 1
-
+# Loop through every movement instance
+for i in range(num_of_iterations):
+    # Loop through every agent in the agents list
+    for k in range(num_of_agents):
+        # Create random movement for y coordinate
+        # Implementing Torus space by adding modulo of 100, agents placed tp other side if wandering off
+        if random.random() < 0.5:
+            agents[k][0] = (agents[k][0] + 1) % 100
+        else:
+            agents[k][0] = (agents[k][0] - 1) % 100
+        # Create random movement for x coordinate
+        if random.random() < 0.5:
+            agents[k][1] = (agents[k][1] + 1) % 100
+        else:
+            agents[k][1] = (agents[k][1] - 1) % 100
 
 # # Calculate Euclidean distance between points
 # distance = ((agents[0][0] - agents[1][0])**2 + (agents[0][1] - agents[1][1])**2)**0.5

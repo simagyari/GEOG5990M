@@ -38,10 +38,12 @@ for i in range(num_of_iterations):
             agents[k][1] = (agents[k][1] - 1) % 100
 
 # # Calculate Euclidean distance between points
-distance = distance_between(agents[0], agents[1])
-print(distance)
-# distance = ((agents[0][0] - agents[1][0])**2 + (agents[0][1] - agents[1][1])**2)**0.5
-# print('Distance of the points is', distance)
+for i in range(len(agents)):
+    for j in range(len(agents)):
+        print('Distance between agents', i, 'and', j, 'is:', distance_between(agents[i], agents[j]))
+# distance = distance_between(agents[0], agents[1])
+# print(distance)
+
 
 # Print the maximum of the two lists by the first element
 print('The maximum of elements by y coordinates:', max(agents))

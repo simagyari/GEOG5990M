@@ -25,8 +25,9 @@ for i in range(num_of_agents):
 
 print(agents)
 
-# Space size constraint
+# Torus space size constraint
 space = 100
+
 # Random movement for agent coordinates
 # Loop through every movement instance
 for i in range(num_of_iterations):
@@ -44,13 +45,20 @@ for i in range(num_of_iterations):
         else:
             agents[k][1] = (agents[k][1] - 1) % space
 
-# # Calculate Euclidean distance between points
+# Calculate Euclidean distance between points
+distances = []
 start = time.process_time()  # Timing of distance starts
-for i in range(len(agents)):
-    for j in range(i+1, len(agents), 1):
-        print('Distance between agents', i, 'and', j, 'is:', distance_between(agents[i], agents[j]))
+for i in range(num_of_agents):
+    for j in range(i+1, num_of_agents, 1):  # Search optimised to consider every pair once and neglect identical point pairs
+        dist = distance_between(agents[i], agents[j])
+        print('Distance between agents', i, 'and', j, 'is:', dist)
+        distances.append(dist)  # To get the minimum and maximum distances
 end = time.process_time()  # Timing of distance ends
 print('Time of distance function:', str(end - start))
+
+# Min and max distances
+print('The minimum distance of two agents is', min(distances))
+print('The maximum distance of two agents is', max(distances))
 # distance = distance_between(agents[0], agents[1])
 # print(distance)
 

@@ -11,7 +11,9 @@ def distance_between(agents_row_a, agents_row_b):
 # Initialise single agent
 a = agentframework.Agent()
 type(a)  # Check if it is an agentframework agent
-print(a.x, a.y)  # To check if instance attributes are recognised
+print(a.y, a.x)  # To check if instance attributes are recognised
+a.move()  # Moves agent
+print(a.y, a.x)
 
 # Declare number of agents and iterations
 num_of_agents = 10
@@ -32,11 +34,10 @@ for j in range(num_of_iterations):
 matplotlib.pyplot.xlim(0, 99)
 matplotlib.pyplot.ylim(0, 99)
 for i in range(num_of_agents):
-    matplotlib.pyplot.scatter(agents[i].x,agents[i].y)
+    matplotlib.pyplot.scatter(agents[i].x, agents[i].y)
 matplotlib.pyplot.show()
 
 # Recursively measure distances
 for agents_row_a in agents:
     for agents_row_b in agents:
         distance = distance_between(agents_row_a, agents_row_b)
-

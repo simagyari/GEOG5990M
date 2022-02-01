@@ -1,4 +1,3 @@
-from msilib.schema import Environment
 import matplotlib.pyplot as plt
 import agentframework
 import csv
@@ -24,7 +23,7 @@ plt.imshow(environment)
 plt.show()
 
 # Initialise single agent
-a = agentframework.Agent()
+a = agentframework.Agent(environment)
 type(a)  # Check if it is an agentframework agent
 print(a.y, a.x)  # To check if instance attributes are recognised
 a.move()  # Moves agent
@@ -37,7 +36,7 @@ agents = []  # Initialise list of agents
 
 # Make the agents.
 for i in range(num_of_agents):
-    agents.append(agentframework.Agent())
+    agents.append(agentframework.Agent(environment))
 
 # Move the agents.
 for j in range(num_of_iterations):

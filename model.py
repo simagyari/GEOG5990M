@@ -1,5 +1,3 @@
-import random
-import operator
 import matplotlib.pyplot
 import agentframework
 
@@ -27,7 +25,6 @@ for i in range(num_of_agents):
 # Move the agents.
 for j in range(num_of_iterations):
     for i in range(num_of_agents):
-
         agents[i].move()
 
 # Plot agents on a scatterplot recursively adding points

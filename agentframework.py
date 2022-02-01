@@ -1,7 +1,8 @@
 import random
 
 
-class Agent():
+class Agent:
 
     def __init__(self):
-        pass
+        self.x = random.randint(0, 99)
+        self.y = random.randint(0, 99)

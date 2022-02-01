@@ -11,6 +11,7 @@ def distance_between(agents_row_a, agents_row_b):
 # Initialise single agent
 a = agentframework.Agent()
 type(a)  # Check if it is an agentframework agent
+print(a.x, a.y)  # To check if instance attributes are recognised
 
 # Declare number of agents and iterations
 num_of_agents = 10

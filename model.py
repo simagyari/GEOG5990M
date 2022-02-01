@@ -18,10 +18,6 @@ with open('in.txt', 'r') as f:
             rowlist.append(value)
         environment.append(rowlist)
 
-# Check if environment raster is correctly represented
-plt.imshow(environment)
-plt.show()
-
 # Initialise single agent
 a = agentframework.Agent(environment)
 type(a)  # Check if it is an agentframework agent
@@ -44,9 +40,10 @@ for j in range(num_of_iterations):
         agents[i].move()
         agents[i].eat()
 
-# Plot agents on a scatterplot recursively adding points
+# Plot agents on a scatterplot recursively adding points onto the environment raster
 plt.xlim(0, 99)
 plt.ylim(0, 99)
+plt.imshow(environment)
 for i in range(num_of_agents):
     plt.scatter(agents[i].x, agents[i].y)
 plt.show()

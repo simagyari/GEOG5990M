@@ -3,9 +3,10 @@ import random
 
 class Agent:
 
-    def __init__(self):
+    def __init__(self, environment):
         self.__x = random.randint(0, 99)
         self.__y = random.randint(0, 99)
+        self.environment = environment
 
     def get_x(self):
         return self.__x

@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import agentframework
+import agentstorage
 import csv
 
 # Measures distance between agents
@@ -60,3 +61,7 @@ with open('out.txt', 'w') as f:
     writer = csv.writer(f)
     for line in environment:
         writer.writerow(line)
+
+# 2. Write total amounts stored by all agents to a line, append to file for every run
+agentstorage.all_storage_writer(agents)
+agentstorage.agent_storage_writer(agents)

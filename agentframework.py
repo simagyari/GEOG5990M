@@ -45,3 +45,6 @@ class Agent:
         if self.environment[self.y][self.x] > 10:
             self.environment[self.y][self.x] -= 10
             self.store += 10
+
+    def __str__(self):
+        return 'I am an agent with location: Y = ' + str(self.y) + ' and X = ' + str(self.x) + ' storing ' + str(self.store)

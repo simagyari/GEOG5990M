@@ -65,3 +65,7 @@ with open('out.txt', 'w') as f:
 # 2. Write total amounts stored by all agents to a line, append to file for every run
 agentstorage.all_storage_writer(agents)
 agentstorage.agent_storage_writer(agents)
+
+# Overwrite __str__ method of agents to print location and storage
+for agent in agents:
+    print(agent)

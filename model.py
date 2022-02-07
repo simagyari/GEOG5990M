@@ -42,8 +42,8 @@ for j in range(num_of_iterations):
         agents[i].eat()
 
 # Plot agents on a scatterplot recursively adding points onto the environment raster
-plt.xlim(0, 99)
-plt.ylim(0, 99)
+plt.xlim(0, len(environment[0]))
+plt.ylim(0, len(environment))
 plt.imshow(environment)
 for i in range(num_of_agents):
     plt.scatter(agents[i].x, agents[i].y)
@@ -66,6 +66,6 @@ with open('out.txt', 'w') as f:
 agentstorage.all_storage_writer(agents)
 agentstorage.agent_storage_writer(agents)
 
-# Overwrite __str__ method of agents to print location and storage
+# 3. Overwrite __str__ method of agents to print location and storage
 for agent in agents:
     print(agent)

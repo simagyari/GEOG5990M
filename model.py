@@ -19,21 +19,22 @@ with open('in.txt', 'r') as f:
             rowlist.append(value)
         environment.append(rowlist)
 
-# Initialise single agent
-a = agentframework.Agent(environment)
-type(a)  # Check if it is an agentframework agent
-print(a.y, a.x)  # To check if instance attributes are recognised
-a.move()  # Moves agent
-print(a.y, a.x)
 
 # Declare number of agents and iterations
 num_of_agents = 10
 num_of_iterations = 100
 agents = []  # Initialise list of agents
 
+# Initialise single agent as test case
+a = agentframework.Agent(environment, agents)
+type(a)  # Check if it is an agentframework agent
+print(a.y, a.x)  # To check if instance attributes are recognised
+a.move()  # Moves agent
+print(a.y, a.x)
+
 # Make the agents.
 for i in range(num_of_agents):
-    agents.append(agentframework.Agent(environment))
+    agents.append(agentframework.Agent(environment, agents))
 
 # Move and make the agents eat, then sick if 100+ is stored
 for j in range(num_of_iterations):
@@ -41,6 +42,7 @@ for j in range(num_of_iterations):
         agents[i].move()
         agents[i].eat()
         agents[i].sick()
+        print(agents[i].agents[0])  # Test to get data of different agents inside one agent
 
 # Plot agents on a scatterplot recursively adding points onto the environment raster
 plt.xlim(0, len(environment[0]))

@@ -45,6 +45,10 @@ class Agent:
         if self.environment[self.y][self.x] > 10:
             self.environment[self.y][self.x] -= 10
             self.store += 10
+        # Else, if the cell has food remaining, eat all and shrink cell to zero
+        elif self.environment[self.y][self.x] > 0:
+            self.store += self.environment[self.y][self.x]
+            self.environment[self.y][self.x] = 0
 
     # Overwriting inbuilt str method to print agent properties instead
     def __str__(self):

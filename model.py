@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import agentframework
 import agentstorage
 import csv
+import random
 
 
 # Reading raster data
@@ -35,6 +36,7 @@ for i in range(num_of_agents):
 # Move and make the agents eat, then sick if 100+ is stored
 for j in range(num_of_iterations):
     for i in range(num_of_agents):
+        random.shuffle(agents)  # shuffle agents to eliminate position-based advantages
         agents[i].move()
         agents[i].eat()
         agents[i].share_with_neighbours(neighbourhood)

@@ -5,11 +5,12 @@ import random
 class Agent:
 
     # Instance variables of the class objects
-    def __init__(self, environment):
+    def __init__(self, environment, agents):
         self.environment = environment
         self.__x = random.randint(0, len(self.environment[0]))  # get environment width
         self.__y = random.randint(0, len(self.environment))  # get environment height
         self.store = 0
+        self.agents = agents
 
     # Getter and setter functions for name-mangled variables
     def get_x(self):

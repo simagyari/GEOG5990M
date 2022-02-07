@@ -53,3 +53,9 @@ class Agent:
     # Overwriting inbuilt str method to print agent properties instead
     def __str__(self):
         return 'I am an agent with location: Y = ' + str(self.y) + ' and X = ' + str(self.x) + ' storing ' + str(self.store)
+
+    # Make agents to sick up their store if it goes over 100
+    def sick(self):
+        if self.store > 100:
+            self.environment[self.y][self.x] += self.store
+            self.store = 0

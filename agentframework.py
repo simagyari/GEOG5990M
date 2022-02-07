@@ -6,9 +6,9 @@ class Agent:
 
     # Instance variables of the class objects
     def __init__(self, environment):
-        self.__x = random.randint(0, 99)
-        self.__y = random.randint(0, 99)
         self.environment = environment
+        self.__x = random.randint(0, len(self.environment[0]))  # get environment width
+        self.__y = random.randint(0, len(self.environment))  # get environment height
         self.store = 0
 
     # Getter and setter functions for name-mangled variables
@@ -31,14 +31,14 @@ class Agent:
     # Moves agent (y and x coordinates respectively) in a Torus space of 100x100 units
     def move(self):
         if random.random() < 0.5:
-            self.y = (self.y + 1) % 100
+            self.y = (self.y + 1) % len(self.environment)
         else:
-            self.y = (self.y - 1) % 100
+            self.y = (self.y - 1) % len(self.environment)
 
         if random.random() < 0.5:
-            self.x = (self.x + 1) % 100
+            self.x = (self.x + 1) % len(self.environment[0])
         else:
-            self.x = (self.x - 1) % 100
+            self.x = (self.x - 1) % len(self.environment[0])
 
     def eat(self): # can you make it eat what is left?
         # If the cell has more food than 10, eats 10 of it (subtract and store)
@@ -46,5 +46,6 @@ class Agent:
             self.environment[self.y][self.x] -= 10
             self.store += 10
 
+    # Overwriting inbuilt str method to print agent properties instead
     def __str__(self):
         return 'I am an agent with location: Y = ' + str(self.y) + ' and X = ' + str(self.x) + ' storing ' + str(self.store)

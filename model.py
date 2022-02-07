@@ -35,11 +35,12 @@ agents = []  # Initialise list of agents
 for i in range(num_of_agents):
     agents.append(agentframework.Agent(environment))
 
-# Move and make the agents eat.
+# Move and make the agents eat, then sick if 100+ is stored
 for j in range(num_of_iterations):
     for i in range(num_of_agents):
         agents[i].move()
         agents[i].eat()
+        agents[i].sick()
 
 # Plot agents on a scatterplot recursively adding points onto the environment raster
 plt.xlim(0, len(environment[0]))

@@ -3,11 +3,6 @@ import agentframework
 import agentstorage
 import csv
 
-# Measures distance between agents
-def distance_between(agents_row_a, agents_row_b):
-    return (((agents_row_a.x - agents_row_b.x)**2) +
-        ((agents_row_a.y - agents_row_b.y)**2))**0.5
-
 
 # Reading raster data
 with open('in.txt', 'r') as f:
@@ -20,9 +15,10 @@ with open('in.txt', 'r') as f:
         environment.append(rowlist)
 
 
-# Declare number of agents and iterations
+# Declare number of agents and iterations, along with neighbourhood size
 num_of_agents = 10
 num_of_iterations = 100
+neighbourhood = 20
 agents = []  # Initialise list of agents
 
 # Initialise single agent as test case
@@ -41,8 +37,8 @@ for j in range(num_of_iterations):
     for i in range(num_of_agents):
         agents[i].move()
         agents[i].eat()
-        agents[i].sick()
-        print(agents[i].agents[0])  # Test to get data of different agents inside one agent
+        agents[i].share_with_neighbours(neighbourhood)
+        agents[i].sick()  # Challenge 6
 
 # Plot agents on a scatterplot recursively adding points onto the environment raster
 plt.xlim(0, len(environment[0]))
@@ -51,11 +47,6 @@ plt.imshow(environment)
 for i in range(num_of_agents):
     plt.scatter(agents[i].x, agents[i].y)
 plt.show()
-
-# Recursively measure distances
-for agents_row_a in agents:
-    for agents_row_b in agents:
-        distance = distance_between(agents_row_a, agents_row_b)
 
 
 # Challenges:

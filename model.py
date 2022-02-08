@@ -1,10 +1,25 @@
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
 import agentframework
 import agentstorage
 import csv
 import random
 import argparse
 
+
+# Updates agents one by one
+def update(frame_number):
+    fig.clear()  # clears scatter points from earlier iteration
+    for i in range(num_of_agents):
+        random.shuffle(agents)  # shuffle agents to eliminate position-based advantages
+        agents[i].move()
+        agents[i].eat()
+        agents[i].share_with_neighbours(neighbourhood)
+        agents[i].sick()  # Challenge 6
+    # Plot agents on a scatterplot recursively adding points onto the environment raster (only single model run)
+    plt.imshow(environment)
+    for i in range(num_of_agents):
+        plt.scatter(agents[i].x, agents[i].y)
 
 # Create command-line functionality (needs positional arguments from command line to run)
 parser = argparse.ArgumentParser(description='Simulate random moving agents grazing a field and sharing food')
@@ -43,23 +58,21 @@ print(a.y, a.x)
 for i in range(num_of_agents):
     agents.append(agentframework.Agent(environment, agents))
 
-# Move and make the agents eat, then sick if 100+ is stored
-for j in range(num_of_iterations):
-    for i in range(num_of_agents):
-        random.shuffle(agents)  # shuffle agents to eliminate position-based advantages
-        agents[i].move()
-        agents[i].eat()
-        agents[i].share_with_neighbours(neighbourhood)
-        agents[i].sick()  # Challenge 6
+# Create figure for animated plotting
+fig = plt.figure(figsize=(7, 7))
+ax = fig.add_axes([0, 0, 1, 1])
+ax.set_autoscale_on(False)  # Does not scale automatically
 
-# Plot agents on a scatterplot recursively adding points onto the environment raster (only single model run)
-if multirun == 0:
-    plt.xlim(0, len(environment[0]))
-    plt.ylim(0, len(environment))
-    plt.imshow(environment)
-    for i in range(num_of_agents):
-        plt.scatter(agents[i].x, agents[i].y)
-    plt.show()
+# Move and make the agents eat, then sick if 100+ is stored
+# for j in range(num_of_iterations):
+#     update()
+
+# Defining animation part
+animation = FuncAnimation(fig, update, interval=1)
+plt.show()
+# Only shows results if it isn't inside a subprocess
+# if multirun == 0:
+#     plt.show()
 
 
 # Challenges:

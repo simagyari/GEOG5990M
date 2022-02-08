@@ -56,7 +56,7 @@ plt.ylim(0, len(environment))
 plt.imshow(environment)
 for i in range(num_of_agents):
     plt.scatter(agents[i].x, agents[i].y)
-plt.show()
+plt.show(block = False)
 
 
 # Challenges:

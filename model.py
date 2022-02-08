@@ -47,13 +47,6 @@ neighbourhood = parser.parse_args().neighbourhood
 multirun = parser.parse_args().multirun
 agents = []  # Initialise list of agents
 
-# Initialise single agent as test case
-a = agentframework.Agent(environment, agents)
-type(a)  # Check if it is an agentframework agent
-print(a.y, a.x)  # To check if instance attributes are recognised
-a.move()  # Moves agent
-print(a.y, a.x)
-
 # Make the agents.
 for i in range(num_of_agents):
     agents.append(agentframework.Agent(environment, agents))

@@ -12,6 +12,7 @@ parser = argparse.ArgumentParser(description='Simulate random moving agents graz
 parser.add_argument('agents', help='Number of agents (integer)', type=int)
 parser.add_argument('iterations', help='Number of iterations (integer)', type=int)
 parser.add_argument('neighbourhood', help='Radius of agent communication zone (integer)', type=int)
+parser.add_argument('--multirun', help='Specifies if the model is run as a subprocess or not (integer, defult: 0)', type=int, required=False, default=0)
 
 # Reading raster data
 with open('in.txt', 'r') as f:
@@ -28,6 +29,7 @@ with open('in.txt', 'r') as f:
 num_of_agents = parser.parse_args().agents
 num_of_iterations = parser.parse_args().iterations
 neighbourhood = parser.parse_args().neighbourhood
+multirun = parser.parse_args().multirun
 agents = []  # Initialise list of agents
 
 # Initialise single agent as test case
@@ -50,13 +52,14 @@ for j in range(num_of_iterations):
         agents[i].share_with_neighbours(neighbourhood)
         agents[i].sick()  # Challenge 6
 
-# Plot agents on a scatterplot recursively adding points onto the environment raster
-plt.xlim(0, len(environment[0]))
-plt.ylim(0, len(environment))
-plt.imshow(environment)
-for i in range(num_of_agents):
-    plt.scatter(agents[i].x, agents[i].y)
-plt.show(block = False)
+# Plot agents on a scatterplot recursively adding points onto the environment raster (only single model run)
+if multirun == 0:
+    plt.xlim(0, len(environment[0]))
+    plt.ylim(0, len(environment))
+    plt.imshow(environment)
+    for i in range(num_of_agents):
+        plt.scatter(agents[i].x, agents[i].y)
+    plt.show()
 
 
 # Challenges:

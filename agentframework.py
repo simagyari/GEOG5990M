@@ -5,11 +5,12 @@ import random
 class Agent:
 
     # Instance variables of the class objects
-    def __init__(self, environment):
+    def __init__(self, environment, agents):
         self.environment = environment
-        self.__x = random.randint(0, len(self.environment[0]))  # get environment width
-        self.__y = random.randint(0, len(self.environment))  # get environment height
+        self.__x = random.randint(0, len(self.environment[0]))  # get environment width (challenge 4)
+        self.__y = random.randint(0, len(self.environment))  # get environment height (challenge 4)
         self.store = 0
+        self.agents = agents
 
     # Getter and setter functions for name-mangled variables
     def get_x(self):
@@ -28,7 +29,7 @@ class Agent:
     x = property(get_x, set_x, "I'm the 'x' property!")
     y = property(get_y, set_y, "I'm the 'y' property!")
 
-    # Moves agent (y and x coordinates respectively) in a Torus space of 100x100 units
+    # Moves agent (y and x coordinates respectively) in a Torus space of the environment (challenge 4)
     def move(self):
         if random.random() < 0.5:
             self.y = (self.y + 1) % len(self.environment)
@@ -45,17 +46,33 @@ class Agent:
         if self.environment[self.y][self.x] > 10:
             self.environment[self.y][self.x] -= 10
             self.store += 10
-        # Else, if the cell has food remaining, eat all and shrink cell to zero
+        # Else, if the cell has food remaining, eat all and shrink cell to zero (challenge 5)
         elif self.environment[self.y][self.x] > 0:
             self.store += self.environment[self.y][self.x]
             self.environment[self.y][self.x] = 0
 
-    # Overwriting inbuilt str method to print agent properties instead
+    # Overwriting inbuilt str method to print agent properties instead (challenge 3)
     def __str__(self):
         return 'I am an agent with location: Y = ' + str(self.y) + ' and X = ' + str(self.x) + ' storing ' + str(self.store)
 
-    # Make agents to sick up their store if it goes over 100
+    # Make agents to sick up their store if it goes over 100 (challenge 6)
+    # Sickness can be outplayed when the agent gets a share from another 100+ after agent turn
     def sick(self):
         if self.store > 100:
             self.environment[self.y][self.x] += self.store
             self.store = 0
+
+    # Share food with other agents in the neighbourhood
+    def share_with_neighbours(self, neighbourhood):
+        for agent in self.agents:
+            distance = self.distance_between(agent)
+            if distance <= neighbourhood:
+                average = (self.store + agent.store) / 2
+                self.store = average
+                agent.store = average
+
+    # Distance measuring method
+    def distance_between(self, agent):
+        return (((self.x - agent.x)**2) +
+            ((self.y - agent.y)**2))**0.5
+

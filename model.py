@@ -2,12 +2,16 @@ import matplotlib.pyplot as plt
 import agentframework
 import agentstorage
 import csv
+import random
+import argparse
 
-# Measures distance between agents
-def distance_between(agents_row_a, agents_row_b):
-    return (((agents_row_a.x - agents_row_b.x)**2) +
-        ((agents_row_a.y - agents_row_b.y)**2))**0.5
 
+# Create command-line functionality (needs positional arguments from command line to run)
+parser = argparse.ArgumentParser(description='Simulate random moving agents grazing a field and sharing food')
+# Add arguments
+parser.add_argument('agents', help='Number of agents (integer)', type=int)
+parser.add_argument('iterations', help='Number of iterations (integer)', type=int)
+parser.add_argument('neighbourhood', help='Radius of agent communication zone (integer)', type=int)
 
 # Reading raster data
 with open('in.txt', 'r') as f:
@@ -19,28 +23,32 @@ with open('in.txt', 'r') as f:
             rowlist.append(value)
         environment.append(rowlist)
 
-# Initialise single agent
-a = agentframework.Agent(environment)
+
+# Declare number of agents and iterations, along with neighbourhood size (all from argparse cmd)
+num_of_agents = parser.parse_args().agents
+num_of_iterations = parser.parse_args().iterations
+neighbourhood = parser.parse_args().neighbourhood
+agents = []  # Initialise list of agents
+
+# Initialise single agent as test case
+a = agentframework.Agent(environment, agents)
 type(a)  # Check if it is an agentframework agent
 print(a.y, a.x)  # To check if instance attributes are recognised
 a.move()  # Moves agent
 print(a.y, a.x)
 
-# Declare number of agents and iterations
-num_of_agents = 10
-num_of_iterations = 100
-agents = []  # Initialise list of agents
-
 # Make the agents.
 for i in range(num_of_agents):
-    agents.append(agentframework.Agent(environment))
+    agents.append(agentframework.Agent(environment, agents))
 
 # Move and make the agents eat, then sick if 100+ is stored
 for j in range(num_of_iterations):
     for i in range(num_of_agents):
+        random.shuffle(agents)  # shuffle agents to eliminate position-based advantages
         agents[i].move()
         agents[i].eat()
-        agents[i].sick()
+        agents[i].share_with_neighbours(neighbourhood)
+        agents[i].sick()  # Challenge 6
 
 # Plot agents on a scatterplot recursively adding points onto the environment raster
 plt.xlim(0, len(environment[0]))
@@ -48,12 +56,7 @@ plt.ylim(0, len(environment))
 plt.imshow(environment)
 for i in range(num_of_agents):
     plt.scatter(agents[i].x, agents[i].y)
-plt.show()
-
-# Recursively measure distances
-for agents_row_a in agents:
-    for agents_row_b in agents:
-        distance = distance_between(agents_row_a, agents_row_b)
+plt.show(block = False)
 
 
 # Challenges:

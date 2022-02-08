@@ -63,17 +63,11 @@ fig = plt.figure(figsize=(7, 7))
 ax = fig.add_axes([0, 0, 1, 1])
 ax.set_autoscale_on(False)  # Does not scale automatically
 
-# Move and make the agents eat, then sick if 100+ is stored
-# for j in range(num_of_iterations):
-#     update()
-
 # Defining animation part with stopping at num_of_iterations and no looping
 animation = FuncAnimation(fig, update, interval=1, repeat=False, frames=num_of_iterations)
-plt.show()
 # Only shows results if it isn't inside a subprocess
-# if multirun == 0:
-#     plt.show()
-
+if multirun == 0:
+    plt.show()
 
 # Challenges:
 # 1. Write environment out at the end to a file

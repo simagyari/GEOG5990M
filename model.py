@@ -67,8 +67,8 @@ ax.set_autoscale_on(False)  # Does not scale automatically
 # for j in range(num_of_iterations):
 #     update()
 
-# Defining animation part
-animation = FuncAnimation(fig, update, interval=1)
+# Defining animation part with stopping at num_of_iterations and no looping
+animation = FuncAnimation(fig, update, interval=1, repeat=False, frames=num_of_iterations)
 plt.show()
 # Only shows results if it isn't inside a subprocess
 # if multirun == 0:

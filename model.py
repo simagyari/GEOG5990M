@@ -3,7 +3,15 @@ import agentframework
 import agentstorage
 import csv
 import random
+import argparse
 
+
+# Create command-line functionality (needs positional arguments from command line to run)
+parser = argparse.ArgumentParser(description='Simulate random moving agents grazing a field and sharing food')
+# Add arguments
+parser.add_argument('agents', help='Number of agents (integer)', type=int)
+parser.add_argument('iterations', help='Number of iterations (integer)', type=int)
+parser.add_argument('neighbourhood', help='Radius of agent communication zone (integer)', type=int)
 
 # Reading raster data
 with open('in.txt', 'r') as f:
@@ -16,10 +24,10 @@ with open('in.txt', 'r') as f:
         environment.append(rowlist)
 
 
-# Declare number of agents and iterations, along with neighbourhood size
-num_of_agents = 10
-num_of_iterations = 100
-neighbourhood = 20
+# Declare number of agents and iterations, along with neighbourhood size (all from argparse cmd)
+num_of_agents = parser.parse_args().agents
+num_of_iterations = parser.parse_args().iterations
+neighbourhood = parser.parse_args().neighbourhood
 agents = []  # Initialise list of agents
 
 # Initialise single agent as test case

@@ -9,6 +9,7 @@ def all_storage_writer(agents):
         f.write('Combined storage of all agents: ' + str(all_storage) + '\n')
     print('Total amount stored by all agents recorded in "storage.txt"')
 
+# Writes the individual storage of each agent at the end of simulation
 def agent_storage_writer(agents):
     agent_storage = []
     for agent in agents:

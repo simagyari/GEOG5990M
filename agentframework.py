@@ -56,8 +56,9 @@ class Agent:
         return 'I am an agent with location: Y = ' + str(self.y) + ' and X = ' + str(self.x) + ' storing ' + str(self.store)
 
     # Make agents to sick up their store if it goes over 100 (challenge 6)
+    # Sickness can be outplayed when the agent gets a share from another 100+ after agent turn
     def sick(self):
-        if self.store > 100.0:  # Must be integer to sort out 100.0x values that don't trigger sickness
+        if self.store > 100:
             self.environment[self.y][self.x] += self.store
             self.store = 0
 

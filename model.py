@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
 import agentframework
 import agentstorage
 import csv
@@ -6,13 +7,55 @@ import random
 import argparse
 
 
+# Updates agents one by one
+def update(frame_number):
+    """
+    Update agent position and behaviour.
+
+    Parameters:
+    -----------
+    frame_number : int (set automatically to equal number of model iterations, only used in animation)
+
+    Returns:
+    --------
+    None
+
+    """
+    fig.clear()  # clears scatter points from earlier iteration
+    random.shuffle(agents)  # shuffle agents to eliminate position-based advantages
+    for a in range(num_of_agents):
+        agents[a].eat()
+    for a in range(num_of_agents):
+        agents[a].move()
+    for a in range(num_of_agents):
+        agents[a].share_with_neighbours(neighbourhood)
+    for a in range(num_of_agents):
+        agents[a].share_eater()
+    for a in range(num_of_agents):
+        agents[a].sick()
+    # Plot agents on a scatterplot recursively adding points onto the environment raster (only on single model run)
+    plt.imshow(environment)
+    for b in range(num_of_agents):
+        plt.scatter(agents[b].x, agents[b].y)
+
+
+# # Create command-line functionality (needs positional arguments from command line to run)
+# parser = argparse.ArgumentParser(description='Simulate random moving agents grazing a field and sharing food')
+# # Add arguments
+# parser.add_argument('agents', help='Number of agents (integer)', type=int)
+# parser.add_argument('iterations', help='Number of iterations (integer)', type=int)
+# parser.add_argument('neighbourhood', help='Radius of agent communication zone (integer)', type=int)
+# parser.add_argument('--multirun', help='Specifies if the model is run as a subprocess or not (integer, defult: 0)',
+#                     type=int, required=False, default=0)
+
 # Create command-line functionality (needs positional arguments from command line to run)
 parser = argparse.ArgumentParser(description='Simulate random moving agents grazing a field and sharing food')
 # Add arguments
-parser.add_argument('agents', help='Number of agents (integer)', type=int)
-parser.add_argument('iterations', help='Number of iterations (integer)', type=int)
-parser.add_argument('neighbourhood', help='Radius of agent communication zone (integer)', type=int)
-parser.add_argument('--multirun', help='Specifies if the model is run as a subprocess or not (integer, defult: 0)', type=int, required=False, default=0)
+parser.add_argument('--agents', help='Number of agents (integer)', type=int, required=False, default=10)
+parser.add_argument('--iterations', help='Number of iterations (integer)', type=int, required=False, default=100)
+parser.add_argument('--neighbourhood', help='Radius of agent communication zone (integer)', type=int, required=False, default=20)
+parser.add_argument('--multirun', help='Specifies if the model is run as a subprocess or not (integer, defult: 0)',
+                    type=int, required=False, default=0)
 
 # Reading raster data
 with open('in.txt', 'r') as f:
@@ -32,35 +75,23 @@ neighbourhood = parser.parse_args().neighbourhood
 multirun = parser.parse_args().multirun
 agents = []  # Initialise list of agents
 
-# Initialise single agent as test case
-a = agentframework.Agent(environment, agents)
-type(a)  # Check if it is an agentframework agent
-print(a.y, a.x)  # To check if instance attributes are recognised
-a.move()  # Moves agent
-print(a.y, a.x)
-
 # Make the agents.
 for i in range(num_of_agents):
-    agents.append(agentframework.Agent(environment, agents))
+    agents.append(agentframework.Agent(i, environment, agents))
 
-# Move and make the agents eat, then sick if 100+ is stored
-for j in range(num_of_iterations):
-    for i in range(num_of_agents):
-        random.shuffle(agents)  # shuffle agents to eliminate position-based advantages
-        agents[i].move()
-        agents[i].eat()
-        agents[i].share_with_neighbours(neighbourhood)
-        agents[i].sick()  # Challenge 6
+# Create figure for animated plotting
+fig = plt.figure(figsize=(7, 7))
+ax = fig.add_axes([0, 0, 1, 1])
+ax.set_autoscale_on(False)  # Does not scale automatically
 
-# Plot agents on a scatterplot recursively adding points onto the environment raster (only single model run)
+# Only shows results if it isn't inside a subprocess
 if multirun == 0:
-    plt.xlim(0, len(environment[0]))
-    plt.ylim(0, len(environment))
-    plt.imshow(environment)
-    for i in range(num_of_agents):
-        plt.scatter(agents[i].x, agents[i].y)
+    # Defining animation part with stopping at num_of_iterations and no looping
+    animation = FuncAnimation(fig, update, interval=1, repeat=False, frames=num_of_iterations)
     plt.show()
-
+else:
+    for i in range(num_of_iterations):
+        update(frame_number=range(num_of_iterations))
 
 # Challenges:
 # 1. Write environment out at the end to a file

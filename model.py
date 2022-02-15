@@ -14,27 +14,24 @@ def update(frame_number):
 
     Parameters:
     -----------
-    frame_number : int (set automatically to equal number of model iterations)
+    frame_number : int (set automatically to equal number of model iterations, only used in animation)
 
     Returns:
     --------
-    object : matplotlib animation object with agent position and environment state each iteration
+    None
+
     """
     fig.clear()  # clears scatter points from earlier iteration
+    random.shuffle(agents)  # shuffle agents to eliminate position-based advantages
     for a in range(num_of_agents):
-        random.shuffle(agents)  # shuffle agents to eliminate position-based advantages
         agents[a].eat()
     for a in range(num_of_agents):
-        random.shuffle(agents)
         agents[a].move()
     for a in range(num_of_agents):
-        random.shuffle(agents)
         agents[a].share_with_neighbours(neighbourhood)
     for a in range(num_of_agents):
-        random.shuffle(agents)
         agents[a].share_eater()
     for a in range(num_of_agents):
-        random.shuffle(agents)
         agents[a].sick()
     # Plot agents on a scatterplot recursively adding points onto the environment raster (only on single model run)
     plt.imshow(environment)

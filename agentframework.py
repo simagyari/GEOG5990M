@@ -5,11 +5,13 @@ import random
 class Agent:
 
     # Instance variables of the class objects
-    def __init__(self, environment, agents):
+    def __init__(self, identity, environment, agents):
+        self.id = identity
         self.environment = environment
-        self.__x = random.randint(0, len(self.environment[0]))  # get environment width (challenge 4)
-        self.__y = random.randint(0, len(self.environment))  # get environment height (challenge 4)
+        self.__x = random.randint(0, len(self.environment[0]) - 1)  # get environment width (challenge 4)
+        self.__y = random.randint(0, len(self.environment) - 1)  # get environment height (challenge 4)
         self.store = 0
+        self.received = 0  # amount received from other agents in sharing session
         self.agents = agents
 
     # Getter and setter functions for name-mangled variables
@@ -53,7 +55,8 @@ class Agent:
 
     # Overwriting inbuilt str method to print agent properties instead (challenge 3)
     def __str__(self):
-        return 'I am an agent with location: Y = ' + str(self.y) + ' and X = ' + str(self.x) + ' storing ' + str(self.store)
+        return 'I am agent ' + str(self.id) + ' with location: Y = ' + str(self.y) + \
+               ' and X = ' + str(self.x) + ' storing ' + str(self.store)
 
     # Make agents to sick up their store if it goes over 100 (challenge 6)
     # Sickness can be outplayed when the agent gets a share from another 100+ after agent turn
@@ -64,15 +67,35 @@ class Agent:
 
     # Share food with other agents in the neighbourhood
     def share_with_neighbours(self, neighbourhood):
+        """
+        Obtain the list of agents in the neighbourhood and give them equal shares of half the stored value
+
+        Parameters:
+        -----------
+        neighbourhood : int (defines the radius of neighbourhood in pixels)
+
+        Returns:
+        --------
+        None
+
+        """
+        # Loop through agents
+        neighbours = []  # list of neighbours
         for agent in self.agents:
             distance = self.distance_between(agent)
-            if distance <= neighbourhood:
-                average = (self.store + agent.store) / 2
-                self.store = average
-                agent.store = average
+            if distance <= neighbourhood and agent.id != self.id:  # check to not add yourself
+                neighbours.append(agent)  # populate neighbour list
+        # Loop through neighbour list
+        for neighbour in neighbours:
+            neighbour.received += self.store / len(neighbours) / 2  # Divide up half the storage equally
+        self.store /= 2  # Halve stored amount as it has been shared
+
+    # Add received food to storage
+    def share_eater(self):
+        self.store += self.received
+        self.received = 0
 
     # Distance measuring method
     def distance_between(self, agent):
         return (((self.x - agent.x)**2) +
             ((self.y - agent.y)**2))**0.5
-

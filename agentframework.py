@@ -46,7 +46,7 @@ class Agent:
     # Moves agent (y and x coordinates respectively) in a Torus space of the environment (challenge 4)
     def move(self):
         """
-        Make agents move in a Torus space of the environment.
+        Make agents move in a Torus space of the environment with different speed depending on their stored food.
 
         Parameters:
         -----------

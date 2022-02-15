@@ -57,15 +57,22 @@ class Agent:
         None
         
         """
-        if random.random() < 0.5:
-            self.y = (self.y + 1) % len(self.environment)
+        # Change speed if there's lot of food in store
+        if self.store > 50:
+            speed = 2
         else:
-            self.y = (self.y - 1) % len(self.environment)
+            speed = 1
+        
+        # Randomly change x and y coordinates by speed
+        if random.random() < 0.5:
+            self.y = (self.y + speed) % len(self.environment)
+        else:
+            self.y = (self.y - speed) % len(self.environment)
 
         if random.random() < 0.5:
-            self.x = (self.x + 1) % len(self.environment[0])
+            self.x = (self.x + speed) % len(self.environment[0])
         else:
-            self.x = (self.x - 1) % len(self.environment[0])
+            self.x = (self.x - speed) % len(self.environment[0])
 
     def eat(self): # can you make it eat what is left?
         """
@@ -100,7 +107,7 @@ class Agent:
 
         Returns:
         --------
-        Agent attributes text : str
+        str : printed agent attributes
         
         """
         return 'I am agent ' + str(self.id) + ' with location: Y = ' + str(self.y) + \

@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import agentframework
@@ -5,6 +7,15 @@ import agentstorage
 import csv
 import random
 import argparse
+import tkinter
+
+
+# Quitter function from tkinter loop
+# From: https://stackoverflow.com/a/55206851
+def quit_me():
+    print('Quitting model runner!')
+    root.quit()
+    root.destroy()
 
 
 # Updates agents one by one
@@ -38,6 +49,47 @@ def update(frame_number):
     for b in range(num_of_agents):
         plt.scatter(agents[b].x, agents[b].y)
 
+    
+def run():
+    # Defining animation part with stopping at num_of_iterations and no looping
+    animation = FuncAnimation(fig, update, interval=1, repeat=False, frames=num_of_iterations)
+    canvas.draw()
+
+
+    # Challenges:
+    # 1. Write environment out at the end to a file
+    with open('out.txt', 'w') as f:
+        writer = csv.writer(f)
+        for line in environment:
+            writer.writerow(line)
+
+    # 2. Write total amounts stored by all agents to a line, append to file for every run
+    agentstorage.all_storage_writer(agents)
+    agentstorage.agent_storage_writer(agents)
+
+    # 3. Overwrite __str__ method of agents to print location and storage
+    for agent in agents:
+        print(agent)
+
+
+# Create figure for animated plotting
+fig = plt.figure(figsize=(7, 7))
+ax = fig.add_axes([0, 0, 1, 1])
+ax.set_autoscale_on(False)  # Does not scale automatically
+
+# Create GUI canvas
+root = tkinter.Tk()
+root.protocol('WM_DELETE_WINDOW', quit_me)
+root.wm_title('Model')
+canvas = matplotlib.backends.backend_tkagg.FigureCanvasTkAgg(fig, master=root)
+canvas._tkcanvas.pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
+
+# Create menu with Run functionality
+menu_bar = tkinter.Menu(root)
+root.config(menu=menu_bar)
+model_menu = tkinter.Menu(menu_bar)
+menu_bar.add_cascade(label='Model', menu=model_menu)
+model_menu.add_command(label='Run model', command=run) 
 
 # # Create command-line functionality (needs positional arguments from command line to run)
 # parser = argparse.ArgumentParser(description='Simulate random moving agents grazing a field and sharing food')
@@ -79,31 +131,14 @@ agents = []  # Initialise list of agents
 for i in range(num_of_agents):
     agents.append(agentframework.Agent(i, environment, agents))
 
-# Create figure for animated plotting
-fig = plt.figure(figsize=(7, 7))
-ax = fig.add_axes([0, 0, 1, 1])
-ax.set_autoscale_on(False)  # Does not scale automatically
+# # Only shows results if it isn't inside a subprocess
+# if multirun == 0:
+#     run()
+# else:
+#     for i in range(num_of_iterations):
+#         update(frame_number=range(num_of_iterations))
 
-# Only shows results if it isn't inside a subprocess
-if multirun == 0:
-    # Defining animation part with stopping at num_of_iterations and no looping
-    animation = FuncAnimation(fig, update, interval=1, repeat=False, frames=num_of_iterations)
-    plt.show()
-else:
-    for i in range(num_of_iterations):
-        update(frame_number=range(num_of_iterations))
 
-# Challenges:
-# 1. Write environment out at the end to a file
-with open('out.txt', 'w') as f:
-    writer = csv.writer(f)
-    for line in environment:
-        writer.writerow(line)
 
-# 2. Write total amounts stored by all agents to a line, append to file for every run
-agentstorage.all_storage_writer(agents)
-agentstorage.agent_storage_writer(agents)
-
-# 3. Overwrite __str__ method of agents to print location and storage
-for agent in agents:
-    print(agent)
+# Initialise main loop
+root.mainloop()

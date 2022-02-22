@@ -8,7 +8,25 @@ import csv
 import random
 import argparse
 import tkinter
+import requests
+import bs4
 
+
+# Get data from the web
+r = requests.get('https://www.geog.leeds.ac.uk/courses/computing/practicals/python/agent-framework/part9/data.html')
+content = r.text
+
+# Process data
+soup = bs4.BeautifulSoup(content, 'html.parser')
+table = soup.find(id='yxz')
+ys_html = soup.find_all(attrs={'class': 'y'})
+xs_html = soup.find_all(attrs={'class': 'x'})
+ys = []
+for y in ys_html:
+    ys.append(int(y.text))
+xs = []
+for x in xs_html:
+    xs.append(int(x.text))
 
 # Quitter function from tkinter loop
 # From: https://stackoverflow.com/a/55206851
@@ -129,7 +147,9 @@ agents = []  # Initialise list of agents
 
 # Make the agents.
 for i in range(num_of_agents):
-    agents.append(agentframework.Agent(i, environment, agents))
+    y = ys[i]
+    x = xs[i]
+    agents.append(agentframework.Agent(i, environment, agents, y, x))
 
 # # Only shows results if it isn't inside a subprocess
 # if multirun == 0:

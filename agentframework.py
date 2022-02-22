@@ -1,11 +1,12 @@
 import random
+from re import X
 
 
 # Defines Agent class, containing agents for abm
 class Agent:
 
     # Instance variables of the class objects
-    def __init__(self, identity, environment, agents):
+    def __init__(self, identity, environment, agents, y=None, x=None):
         """
         None
 
@@ -20,8 +21,14 @@ class Agent:
         """
         self.id = identity
         self.environment = environment
-        self.__x = random.randint(0, len(self.environment[0]) - 1)  # get environment width (challenge 4)
-        self.__y = random.randint(0, len(self.environment) - 1)  # get environment height (challenge 4)
+        if x == None:
+            self.__x = random.randint(0, len(self.environment[0]) - 1)  # get environment width (challenge 4)
+        else:
+            self.__x = x
+        if y == None:
+            self.__y = random.randint(0, len(self.environment) - 1)  # get environment height (challenge 4)
+        else:
+            self.__y = y
         self.store = 0
         self.received = 0  # amount received from other agents in sharing session
         self.agents = agents

@@ -186,11 +186,11 @@ class Agent:
 
     Parameters:
     -----------
-    None
+    agent : agentframework.Agent object
 
     Returns:
     --------
-    None
+    float : distance between self and agent in pixel
 
     """
     def distance_between(self, agent):

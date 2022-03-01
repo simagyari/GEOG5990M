@@ -129,7 +129,10 @@ def agent_printer(agents):
 # Create figure for animated plotting
 fig = plt.figure(figsize=(7, 7))
 ax = fig.add_axes([0, 0, 1, 1])
-ax.set_autoscale_on(False)  # Does not scale automatically 
+ax.set_autoscale_on(False)  # Does not scale automatically
+
+# Scrape web for agent coordinate information
+ys, xs = web_scraper()
 
 # # Create command-line functionality (needs positional arguments from command line to run)
 # parser = argparse.ArgumentParser(description='Simulate random moving agents grazing a field and sharing food')
@@ -143,7 +146,7 @@ ax.set_autoscale_on(False)  # Does not scale automatically
 # Create command-line functionality (needs positional arguments from command line to run)
 parser = argparse.ArgumentParser(description='Simulate random moving agents grazing a field and sharing food')
 # Add arguments
-parser.add_argument('--agents', help='Number of agents (integer)', type=int, required=False, default=10)
+parser.add_argument('--agents', help='Number of agents (integer)', type=int, required=False, default=len(ys))
 parser.add_argument('--iterations', help='Number of iterations (integer)', type=int, required=False, default=100)
 parser.add_argument('--neighbourhood', help='Radius of agent communication zone (integer)', type=int, required=False, default=20)
 parser.add_argument('--multirun', help='Specifies if the model is run as a subprocess or not (integer, defult: 0)',
@@ -154,9 +157,6 @@ num_of_agents = parser.parse_args().agents
 num_of_iterations = parser.parse_args().iterations
 neighbourhood = parser.parse_args().neighbourhood
 multirun = parser.parse_args().multirun
-
-# Scrape web for agent coordinate information
-ys, xs = web_scraper()
 
 # Read environment list
 environment = env_reader('in.txt')

@@ -70,22 +70,26 @@ class Agent:
         None
         
         """
-        # Change speed if there's lot of food in store
+        # Change speed if there's lot of food in store (if sheep feels full, can jump two)
         if self.store > 50:
             speed = 2
         else:
             speed = 1
         
-        # Randomly change x and y coordinates by speed
-        if random.random() < 0.5:
+        # Randomly change x and y coordinates by speed (every direction enabled)
+        if random.random() > 0.75:
             self.y = (self.y + speed) % len(self.environment)
-        else:
+        elif random.random() < 0.25:
             self.y = (self.y - speed) % len(self.environment)
-
-        if random.random() < 0.5:
-            self.x = (self.x + speed) % len(self.environment[0])
         else:
+            pass
+
+        if random.random() > 0.75:
+            self.x = (self.x + speed) % len(self.environment[0])
+        elif random.random() < 0.25:
             self.x = (self.x - speed) % len(self.environment[0])
+        else:
+            pass
 
 
     def eat(self): # can you make it eat what is left?

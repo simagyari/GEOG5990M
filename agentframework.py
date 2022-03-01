@@ -33,22 +33,28 @@ class Agent:
         self.received = 0  # amount received from other agents in sharing session
         self.agents = agents
 
+
     # Getter and setter functions for name-mangled variables
     def get_x(self):
         return self.__x
 
+
     def get_y(self):
         return self.__y
+
 
     def set_x(self, value):
         self.__x = value
 
+
     def set_y(self, value):
         self.__y = value
+
 
     # Property values for name-mangled variables
     x = property(get_x, set_x, "I'm the 'x' property!")
     y = property(get_y, set_y, "I'm the 'y' property!")
+
 
     # Moves agent (y and x coordinates respectively) in a Torus space of the environment (challenge 4)
     def move(self):
@@ -81,6 +87,7 @@ class Agent:
         else:
             self.x = (self.x - speed) % len(self.environment[0])
 
+
     def eat(self): # can you make it eat what is left?
         """
         Make agents eat by increasing stored value and decreasing cell value.
@@ -103,6 +110,7 @@ class Agent:
             self.store += self.environment[self.y][self.x]
             self.environment[self.y][self.x] = 0
 
+
     # Overwriting inbuilt str method to print agent properties instead (challenge 3)
     def __str__(self):
         """
@@ -119,6 +127,7 @@ class Agent:
         """
         return 'I am agent ' + str(self.id) + ' with location: Y = ' + str(self.y) + \
                ' and X = ' + str(self.x) + ' storing ' + str(self.store)
+
 
     # Make agents to sick up their store if it goes over 100 (challenge 6)
     def sick(self):
@@ -137,6 +146,7 @@ class Agent:
         if self.store > 100:
             self.environment[self.y][self.x] += self.store
             self.store = 0
+
 
     # Share food with other agents in the neighbourhood
     def share_with_neighbours(self, neighbourhood):
@@ -163,6 +173,7 @@ class Agent:
             neighbour.received += self.store / len(neighbours) / 2  # Divide up half the storage equally
         self.store /= 2  # Halve stored amount as it has been shared
 
+
     # Add received food to storage
     def share_eater(self):
         """
@@ -179,20 +190,21 @@ class Agent:
         """
         self.store += self.received
         self.received = 0
-
+    
+    
     # Distance measuring method
-    """
-    Measure the distance between self and agent.
-
-    Parameters:
-    -----------
-    agent : agentframework.Agent object
-
-    Returns:
-    --------
-    float : distance between self and agent in pixel
-
-    """
     def distance_between(self, agent):
+        """
+        Measure the distance between self and agent.
+
+        Parameters:
+        -----------
+        agent : agentframework.Agent object
+
+        Returns:
+        --------
+        float : distance between self and agent in pixel
+
+        """
         return (((self.x - agent.x)**2) +
             ((self.y - agent.y)**2))**0.5

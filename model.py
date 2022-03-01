@@ -102,12 +102,14 @@ def web_scraper():
     table = soup.find(id='yxz')
     ys_html = soup.find_all(attrs={'class': 'y'})
     xs_html = soup.find_all(attrs={'class': 'x'})
-    ys = []
+    ys_basic = []
     for y in ys_html:
-        ys.append(int(y.text))
-    xs = []
+        ys_basic.append(int(y.text))
+    ys = [y * round(len(environment) / max(ys_basic)) for y in ys_basic]
+    xs_basic = []
     for x in xs_html:
-        xs.append(int(x.text))
+        xs_basic.append(int(x.text))
+    xs = [x * round(len(environment[0]) / max(xs_basic)) for x in xs_basic]
     return ys, xs
 
 
@@ -130,6 +132,9 @@ def agent_printer(agents):
 fig = plt.figure(figsize=(7, 7))
 ax = fig.add_axes([0, 0, 1, 1])
 ax.set_autoscale_on(False)  # Does not scale automatically
+
+# Read environment list
+environment = env_reader('in.txt')
 
 # Scrape web for agent coordinate information
 ys, xs = web_scraper()
@@ -158,8 +163,6 @@ num_of_iterations = parser.parse_args().iterations
 neighbourhood = parser.parse_args().neighbourhood
 multirun = parser.parse_args().multirun
 
-# Read environment list
-environment = env_reader('in.txt')
 
 # Append to agents list
 agents = agent_maker(num_of_agents, environment, ys, xs)

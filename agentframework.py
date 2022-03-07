@@ -6,7 +6,7 @@ from re import X
 class Agent:
 
     # Instance variables of the class objects
-    def __init__(self, identity, environment, agents, y=None, x=None):
+    def __init__(self, identity: int, environment: list, agents: list, y=None, x=None) -> None:
         """
         None
 
@@ -35,19 +35,19 @@ class Agent:
 
 
     # Getter and setter functions for name-mangled variables
-    def get_x(self):
+    def get_x(self) -> int:
         return self.__x
 
 
-    def get_y(self):
+    def get_y(self) -> int:
         return self.__y
 
 
-    def set_x(self, value):
+    def set_x(self, value: int) -> None:
         self.__x = value
 
 
-    def set_y(self, value):
+    def set_y(self, value: int) -> None:
         self.__y = value
 
 
@@ -57,7 +57,7 @@ class Agent:
 
 
     # Moves agent (y and x coordinates respectively) in a Torus space of the environment (challenge 4)
-    def move(self):
+    def move(self) -> None:
         """
         Make agents move in a Torus space of the environment with different speed depending on their stored food.
 
@@ -92,7 +92,7 @@ class Agent:
             pass
 
 
-    def eat(self): # can you make it eat what is left?
+    def eat(self) -> None: # can you make it eat what is left?
         """
         Make agents eat by increasing stored value and decreasing cell value.
 
@@ -116,7 +116,7 @@ class Agent:
 
 
     # Overwriting inbuilt str method to print agent properties instead (challenge 3)
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Overwrite the in-built string method to print the id, coordinates and storage of the agent.
 
@@ -134,7 +134,7 @@ class Agent:
 
 
     # Make agents to sick up their store if it goes over 100 (challenge 6)
-    def sick(self):
+    def sick(self) -> None:
         """
         Make agent deposit stored amount if it exceeds 100 units.
 
@@ -153,7 +153,7 @@ class Agent:
 
 
     # Share food with other agents in the neighbourhood
-    def share_with_neighbours(self, neighbourhood):
+    def share_with_neighbours(self, neighbourhood: int) -> None:
         """
         Obtain the list of agents in the neighbourhood and give them equal shares of half the stored value
 
@@ -179,7 +179,7 @@ class Agent:
 
 
     # Add received food to storage
-    def share_eater(self):
+    def share_eater(self) -> None:
         """
         Add the content of the received attribute to the store attribute, then set received to 0.
 
@@ -197,7 +197,7 @@ class Agent:
     
     
     # Distance measuring method
-    def distance_between(self, agent):
+    def distance_between(self, agent) -> float:
         """
         Measure the distance between self and agent.
 

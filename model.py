@@ -70,7 +70,7 @@ def run():
 
 
 # Read environment file to nested list
-def env_reader(infile):
+def env_reader(infile: str) -> list:
     with open(infile, 'r') as f:
         environment = []
         reader = csv.reader(f, quoting=csv.QUOTE_NONNUMERIC)  # QUOTE_NONNUMERIC changes everything to float
@@ -83,7 +83,7 @@ def env_reader(infile):
 
 
 # Make agents based on num_of_agents
-def agent_maker(num_of_agents, environment, ys, xs):
+def agent_maker(num_of_agents: int, environment: list, ys: list, xs: list) -> list:
     agents = []
     for i in range(num_of_agents):
         y = ys[i]
@@ -93,7 +93,7 @@ def agent_maker(num_of_agents, environment, ys, xs):
 
 
 # Get agent starting coordinates from the web
-def web_scraper():
+def web_scraper() -> tuple:
     r = requests.get('https://www.geog.leeds.ac.uk/courses/computing/practicals/python/agent-framework/part9/data.html')
     content = r.text
 
@@ -114,7 +114,7 @@ def web_scraper():
 
 
 # Writes environment file to out.txt
-def env_writer(outfile):
+def env_writer(outfile: str):
     # Write environment out at the end to a file
     with open(outfile, 'w') as f:
         writer = csv.writer(f)
@@ -123,7 +123,7 @@ def env_writer(outfile):
 
 
 # 3. Overwrite __str__ method of agents to print location and storage
-def agent_printer(agents):
+def agent_printer(agents: list):
     for agent in agents:
         print(agent)
 

@@ -14,14 +14,14 @@ import bs4
 
 # Quitter function from tkinter loop
 # From: https://stackoverflow.com/a/55206851
-def quit_me():
+def quit_me() -> None:
     print('Quitting model runner!')
     root.quit()
     root.destroy()
 
 
 # Updates agents one by one
-def update(frame_number):
+def update(frame_number) -> None:
     """
     Update agent position and behaviour.
 
@@ -53,7 +53,7 @@ def update(frame_number):
 
 
 # Create and display animation, write outputs
-def run():
+def run() -> None:
     # Defining animation part with stopping at num_of_iterations and no looping
     animation = FuncAnimation(fig, update, interval=1, repeat=False, frames=num_of_iterations)
     canvas.draw()
@@ -62,8 +62,8 @@ def run():
     env_writer('out.txt')
 
     # Print overall and one-by-one agent storage, record in storage.txt
-    agentstorage.all_storage_writer(agents)
-    agentstorage.agent_storage_writer(agents)
+    agentstorage.all_storage_writer(agents, 'storage.txt')
+    agentstorage.agent_storage_writer(agents, 'storage.txt')
 
     # Print agents
     agent_printer(agents)

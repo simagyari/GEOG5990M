@@ -1,5 +1,4 @@
 import random
-from re import X
 
 
 # Defines Agent class, containing agents for abm

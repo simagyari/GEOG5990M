@@ -3,15 +3,41 @@ import random
 
 # Defines Agent class, containing agents for abm
 class Agent:
+    """
+    Provide attributes and methods for creating and manipulating agents in an agent-based model.
 
+    Attributes:
+    -----------
+    id : int (id of the agent)
+    environment : list (nested (2D) list of environment)
+    __x : int or float (x coordinate of agent, default=None)
+    __y : int or float (y coordinate of agent, default=None)
+    store : int or float (amount stored by agent)
+    received : int of float (amount received from other agent through sharing)
+    agents : list (list of agentframework.Agent objects, including self)
+
+    Methods:
+    --------
+    move : changes agent coordinates
+    eat : takes away from environment cell, adds to self.store
+    sick : empties self.store, adds to environment cell
+    share_with_neighbours : shares half of storage with nearby agents
+    share_eater : empties self.received, adds to self.store
+    distance_between : returns deistance between self and agent
+
+    """
     # Instance variables of the class objects
     def __init__(self, identity: int, environment: list, agents: list, y=None, x=None) -> None:
         """
-        None
+        Constructor method of the Agent class.
 
         Parameters:
         -----------
-        None
+        identity : int (id of the agent object)
+        environment : list (nested (2D) list of environment)
+        agents : list (list of agentframework.Agent objects, including self)
+        y : int or float (y coordinate of agent, default=None)
+        x : int or float (x coordinate of agent, default=None)
 
         Returns:
         --------

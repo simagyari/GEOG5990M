@@ -63,25 +63,21 @@ class Agent:
     def get_x(self) -> int:
         return self.__x
 
-
     def get_y(self) -> int:
         return self.__y
-
 
     def set_x(self, value: int) -> None:
         self.__x = value
 
-
     def set_y(self, value: int) -> None:
         self.__y = value
-
 
     # Property values for name-mangled variables
     x = property(get_x, set_x, "I'm the 'x' property!")
     y = property(get_y, set_y, "I'm the 'y' property!")
 
 
-    # Moves agent (y and x coordinates respectively) in a Torus space of the environment (challenge 4)
+    # Moves agent (y and x coordinates respectively) in a Torus space of the environment
     def move(self) -> None:
         """
         Make agents move in a Torus space of the environment with different speed depending on their stored food.
@@ -116,8 +112,8 @@ class Agent:
         else:
             pass
 
-
-    def eat(self) -> None: # can you make it eat what is left?
+    # Make agent eat the environment
+    def eat(self) -> None:
         """
         Make agents eat by increasing stored value and decreasing cell value.
 
@@ -139,8 +135,7 @@ class Agent:
             self.store += self.environment[self.y][self.x]
             self.environment[self.y][self.x] = 0
 
-
-    # Overwriting inbuilt str method to print agent properties instead (challenge 3)
+    # Overwriting inbuilt str method to print agent properties instead
     def __str__(self) -> str:
         """
         Overwrite the in-built string method to print the id, coordinates and storage of the agent.
@@ -157,8 +152,7 @@ class Agent:
         return 'I am agent ' + str(self.id) + ' with location: Y = ' + str(self.y) + \
                ' and X = ' + str(self.x) + ' storing ' + str(self.store)
 
-
-    # Make agents to sick up their store if it goes over 100 (challenge 6)
+    # Make agents to sick up their store if it goes over 100
     def sick(self) -> None:
         """
         Make agent deposit stored amount if it exceeds 100 units.
@@ -175,7 +169,6 @@ class Agent:
         if self.store > 100:
             self.environment[self.y][self.x] += self.store
             self.store = 0
-
 
     # Share food with other agents in the neighbourhood
     def share_with_neighbours(self, neighbourhood: int) -> None:
@@ -202,7 +195,6 @@ class Agent:
             neighbour.received += self.store / len(neighbours) / 2  # Divide up half the storage equally
         self.store /= 2  # Halve stored amount as it has been shared
 
-
     # Add received food to storage
     def share_eater(self) -> None:
         """
@@ -219,7 +211,6 @@ class Agent:
         """
         self.store += self.received
         self.received = 0
-    
     
     # Distance measuring method
     def distance_between(self, agent) -> float:

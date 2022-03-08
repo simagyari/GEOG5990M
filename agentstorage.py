@@ -1,5 +1,18 @@
 # Sums stored food of every agent in the list
 def all_storage_writer(agents: list, outfile: str) -> None:
+    """
+    Append the cumulative storage of all agents to the end of the outfile.
+
+    Parameters:
+    -----------
+    agents : list (list of agentframework.Agent objects)
+    outfile : str (output filename to append to)
+
+    Returns:
+    --------
+    None
+
+    """
     all_storage = 0
     for agent in agents:
         all_storage += agent.store
@@ -11,6 +24,19 @@ def all_storage_writer(agents: list, outfile: str) -> None:
 
 # Writes the individual storage of each agent at the end of simulation
 def agent_storage_writer(agents: int, outfile: str) -> None:
+    """
+    Append the individual storage of all agents to the end of the outfile.
+
+    Parameters:
+    -----------
+    agents : list (list of agentframework.Agent objects)
+    outfile : str (output filename to append to)
+
+    Returns:
+    --------
+    None
+    
+    """
     agent_storage = []
     for agent in agents:
         agent_storage.append(agent.store)

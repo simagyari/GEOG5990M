@@ -3,3 +3,7 @@
 *.txt
 test*
 .idea
+profilereader.py
+*.dat
+*.prof
+docs*

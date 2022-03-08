@@ -148,20 +148,20 @@ def agent_maker(num_of_agents: int, environment: list, ys: list, xs: list) -> li
 
 
 # Get agent starting coordinates from the web
-def web_scraper() -> tuple:
+def web_scraper(url) -> tuple:
     """
     Scrape the web for agent coordinates.
 
     Parameters:
     -----------
-    None
+    url : str (the URL of the agent coordinates data on the web)
 
     Returns:
     --------
     tuple : tuple of lists ([y coordinates], [x coordinates])
 
     """
-    r = requests.get('https://www.geog.leeds.ac.uk/courses/computing/practicals/python/agent-framework/part9/data.html')
+    r = requests.get(url)
     content = r.text
 
     # Process data
@@ -181,7 +181,7 @@ def web_scraper() -> tuple:
 
 
 # Writes environment file to out.txt
-def env_writer(outfile: str):
+def env_writer(outfile: str) -> None:
     """
     Write environment list to text file after simulation.
 
@@ -202,7 +202,7 @@ def env_writer(outfile: str):
 
 
 # 3. Overwrite __str__ method of agents to print location and storage
-def agent_printer(agents: list):
+def agent_printer(agents: list) -> None:
     """
     Print agent properties.
 
@@ -228,7 +228,7 @@ ax.set_autoscale_on(False)  # Does not scale automatically
 environment = env_reader('in.txt')
 
 # Scrape web for agent coordinate information
-ys, xs = web_scraper()
+ys, xs = web_scraper('https://www.geog.leeds.ac.uk/courses/computing/practicals/python/agent-framework/part9/data.html')
 
 # # Create command-line functionality (needs positional arguments from command line to run)
 # parser = argparse.ArgumentParser(description='Simulate random moving agents grazing a field and sharing food')

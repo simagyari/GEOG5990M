@@ -15,6 +15,18 @@ import bs4
 # Quitter function from tkinter loop
 # From: https://stackoverflow.com/a/55206851
 def quit_me() -> None:
+    """
+    Quit and destroy the tkinter mainloop on closing the model GUI window.
+
+    Parameters:
+    -----------
+    None
+
+    Returns:
+    --------
+    None
+
+    """
     print('Quitting model runner!')
     root.quit()
     root.destroy()
@@ -54,6 +66,18 @@ def update(frame_number) -> None:
 
 # Create and display animation, write outputs
 def run() -> None:
+    """
+    Run the model animation and record output.
+
+    Parameters:
+    -----------
+    None
+
+    Returns:
+    --------
+    None
+
+    """
     # Defining animation part with stopping at num_of_iterations and no looping
     animation = FuncAnimation(fig, update, interval=1, repeat=False, frames=num_of_iterations)
     canvas.draw()
@@ -71,6 +95,17 @@ def run() -> None:
 
 # Read environment file to nested list
 def env_reader(infile: str) -> list:
+    """
+    Read environment list from infile.
+
+    Parameters:
+    -----------
+    infile : str (name of the file containing the environment list)
+
+    Returns:
+    --------
+    list : nested (2D) list of the environment
+    """
     with open(infile, 'r') as f:
         environment = []
         reader = csv.reader(f, quoting=csv.QUOTE_NONNUMERIC)  # QUOTE_NONNUMERIC changes everything to float
@@ -84,16 +119,48 @@ def env_reader(infile: str) -> list:
 
 # Make agents based on num_of_agents
 def agent_maker(num_of_agents: int, environment: list, ys: list, xs: list) -> list:
+    """
+    Create list of agents used for simulation.
+
+    Parameters:
+    -----------
+    num_of_agents : int (the desired number of agents, default=length of web agent list)
+    environment : list (nested(2D) list of environment)
+    ys : list (list of y coordinates retrieved from the web)
+    xs : list (list of x coordinates retrieved from the web)
+
+    Returns:
+    --------
+    list : list of agentframework.Agent objects
+
+    """
     agents = []
     for i in range(num_of_agents):
-        y = ys[i]
-        x = xs[i]
-        agents.append(agentframework.Agent(i, environment, agents, y, x))
+        if i < len(ys):
+            y = ys[i]
+            x = xs[i]
+            agents.append(agentframework.Agent(i, environment, agents, y, x))
+        else:
+            y = random.randint(0, max(ys))
+            x = random.randint(0, max(xs))
+            agents.append(agentframework.Agent(i, environment, agents, y, x))
     return agents
 
 
 # Get agent starting coordinates from the web
 def web_scraper() -> tuple:
+    """
+    Scrape the web for agent coordinates.
+
+    Parameters:
+    -----------
+    None
+
+    Returns:
+    --------
+    tuple : tuple of lists ([y coordinates], [x coordinates])
+
+    """
     r = requests.get('https://www.geog.leeds.ac.uk/courses/computing/practicals/python/agent-framework/part9/data.html')
     content = r.text
 
@@ -115,6 +182,18 @@ def web_scraper() -> tuple:
 
 # Writes environment file to out.txt
 def env_writer(outfile: str):
+    """
+    Write environment list to text file after simulation.
+
+    Parameters:
+    -----------
+    outfile : str (name of the output textfile)
+
+    Returns:
+    --------
+    None
+
+    """
     # Write environment out at the end to a file
     with open(outfile, 'w') as f:
         writer = csv.writer(f)
@@ -124,6 +203,18 @@ def env_writer(outfile: str):
 
 # 3. Overwrite __str__ method of agents to print location and storage
 def agent_printer(agents: list):
+    """
+    Print agent properties.
+
+    Parameters:
+    -----------
+    agents : list (list of agentframework.Agent objects)
+
+    Returns:
+    --------
+    None
+    
+    """
     for agent in agents:
         print(agent)
 

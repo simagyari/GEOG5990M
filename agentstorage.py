@@ -42,5 +42,5 @@ def agent_storage_writer(agents: int, outfile: str) -> None:
         agent_storage.append(agent.store)
     print('Storage of agents:\n', agent_storage)
     with open(outfile, 'a') as f:
-        f.write('Individual storage of agents: ' + str(agent_storage)[1:-1] + '\n')
+        f.write('Individual storage of agents: ' + str(agent_storage)[1:-1] + '\n\n')
     print('Amount of food stored by each agent recorded in "storage.txt"')

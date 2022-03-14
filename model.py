@@ -80,6 +80,7 @@ def run() -> None:
     """
     # Defining animation part with stopping at num_of_iterations and no looping
     animation = FuncAnimation(fig, update, interval=1, repeat=False, frames=num_of_iterations)
+    # Only draw result when there is no parameter sweeping
     canvas.draw()
 
     # Write environment to outfile
@@ -107,13 +108,9 @@ def env_reader(infile: str) -> list:
     list : nested (2D) list of the environment
     """
     with open(infile, 'r') as f:
-        environment = []
         reader = csv.reader(f, quoting=csv.QUOTE_NONNUMERIC)  # QUOTE_NONNUMERIC changes everything to float
-        for row in reader:
-            rowlist = []
-            for value in row:
-                rowlist.append(value)
-            environment.append(rowlist)
+        # For every row of the list, append every row element to an environment row, then append environment row to environment
+        environment = [[value for value in row] for row in reader]
     return environment
 
 
@@ -134,12 +131,15 @@ def agent_maker(num_of_agents: int, environment: list, ys: list, xs: list) -> li
     list : list of agentframework.Agent objects
 
     """
+    # Create empty agents list
     agents = []
+    # For every agent, test if there is a coordinate pair from the web for it (not out of bound)
     for i in range(num_of_agents):
         if i < len(ys):
             y = ys[i]
             x = xs[i]
             agents.append(agentframework.Agent(i, environment, agents, y, x))
+        # If there is no coordinate pair (out of bounds), one is assigned randomly
         else:
             y = random.randint(0, max(ys))
             x = random.randint(0, max(xs))
@@ -148,7 +148,7 @@ def agent_maker(num_of_agents: int, environment: list, ys: list, xs: list) -> li
 
 
 # Get agent starting coordinates from the web
-def web_scraper(url) -> tuple:
+def web_scraper(url: str) -> tuple:
     """
     Scrape the web for agent coordinates.
 
@@ -161,21 +161,21 @@ def web_scraper(url) -> tuple:
     tuple : tuple of lists ([y coordinates], [x coordinates])
 
     """
+    # Fetch the url and download the text the html site contains
     r = requests.get(url)
     content = r.text
-
-    # Process data
+    # Parse html text to make it selectable
     soup = bs4.BeautifulSoup(content, 'html.parser')
+    # Find coordinate table
     table = soup.find(id='yxz')
+    # Retrieve list of html tags containing x and y values
     ys_html = soup.find_all(attrs={'class': 'y'})
     xs_html = soup.find_all(attrs={'class': 'x'})
-    ys_basic = []
-    for y in ys_html:
-        ys_basic.append(int(y.text))
+    # Extract and convert to integer the numbers from the tags
+    ys_basic = [int(y.text) for y in ys_html]
+    xs_basic = [int(x.text) for x in xs_html]
+    # Scale the numbers to fill the environment list
     ys = [y * round(len(environment) / max(ys_basic)) for y in ys_basic]
-    xs_basic = []
-    for x in xs_html:
-        xs_basic.append(int(x.text))
     xs = [x * round(len(environment[0]) / max(xs_basic)) for x in xs_basic]
     return ys, xs
 
@@ -260,17 +260,17 @@ agents = agent_maker(num_of_agents, environment, ys, xs)
 
 # Create GUI canvas
 root = tkinter.Tk()
-root.protocol('WM_DELETE_WINDOW', quit_me)
+root.protocol('WM_DELETE_WINDOW', quit_me)  # exists program when window closed
 root.wm_title('Model')
-canvas = matplotlib.backends.backend_tkagg.FigureCanvasTkAgg(fig, master=root)
+canvas = matplotlib.backends.backend_tkagg.FigureCanvasTkAgg(fig, master=root)  # Plot fig on canvas
 canvas._tkcanvas.pack(side=tkinter.TOP, fill=tkinter.BOTH, expand=1)
 
 # Create menu with Run functionality
 menu_bar = tkinter.Menu(root)
 root.config(menu=menu_bar)
 model_menu = tkinter.Menu(menu_bar)
-menu_bar.add_cascade(label='Model', menu=model_menu)
-model_menu.add_command(label='Run model', command=run)
+menu_bar.add_cascade(label='Model', menu=model_menu)  # Model button
+model_menu.add_command(label='Run model', command=run)  # Run button in the drop-down list of Model
 
 # Initialise main loop
 root.mainloop()

@@ -6,44 +6,27 @@ class Agent:
     """
     Provide attributes and methods for creating and manipulating agents in an agent-based model.
 
-    Attributes:
-    -----------
-    id : int (id of the agent)
-    environment : list (nested (2D) list of environment)
-    __x : int or float (x coordinate of agent, default=None)
-    __y : int or float (y coordinate of agent, default=None)
-    store : int or float (amount stored by agent)
-    received : int of float (amount received from other agent through sharing)
-    agents : list (list of agentframework.Agent objects, including self)
-
-    Methods:
-    --------
-    move : changes agent coordinates
-    eat : takes away from environment cell, adds to self.store
-    sick : empties self.store, adds to environment cell
-    share_with_neighbours : shares half of storage with nearby agents
-    share_eater : empties self.received, adds to self.store
-    distance_between : returns deistance between self and agent
+    Parameters
+    ----------
+    id : int
+        id of the agent (constructor: identity)
+    environment : list
+        nested (2D) list of environment (constructor: environment)
+    __x : int
+        x coordinate of agent, defaults to None (constructor: x)
+    __y : int
+        y coordinate of agent, defaults to None (constructor: y)
+    store : float
+        amount stored by agent
+    received : float
+        amount received from other agent through sharing
+    agents : list
+        list of agentframework.Agent objects, including self (constructor: agents)
 
     """
     # Instance variables of the class objects
     def __init__(self, identity: int, environment: list, agents: list, y=None, x=None) -> None:
-        """
-        Constructor method of the Agent class.
-
-        Parameters:
-        -----------
-        identity : int (id of the agent object)
-        environment : list (nested (2D) list of environment)
-        agents : list (list of agentframework.Agent objects, including self)
-        y : int or float (y coordinate of agent, default=None)
-        x : int or float (x coordinate of agent, default=None)
-
-        Returns:
-        --------
-        None
-        
-        """
+        """Constructor method for Agent class"""
         self.id = identity
         self.environment = environment
         if x == None:
@@ -61,15 +44,19 @@ class Agent:
 
     # Getter and setter functions for name-mangled variables
     def get_x(self) -> int:
+        """Get value of x property."""
         return self.__x
 
     def get_y(self) -> int:
+        """Get value of y property."""
         return self.__y
 
     def set_x(self, value: int) -> None:
+        """Set value of x property."""
         self.__x = value
 
     def set_y(self, value: int) -> None:
+        """Set value of y property."""
         self.__y = value
 
     # Property values for name-mangled variables
@@ -79,18 +66,7 @@ class Agent:
 
     # Moves agent (y and x coordinates respectively) in a Torus space of the environment
     def move(self) -> None:
-        """
-        Make agents move in a Torus space of the environment with different speed depending on their stored food.
-
-        Parameters:
-        -----------
-        None
-
-        Returns:
-        --------
-        None
-        
-        """
+        """Make agents move in a Torus space of the environment with different speed depending on their stored food."""
         # Change speed if there's lot of food in store (if sheep feels full, can jump two)
         if self.store > 50:
             speed = 2
@@ -114,18 +90,7 @@ class Agent:
 
     # Make agent eat the environment
     def eat(self) -> None:
-        """
-        Make agents eat by increasing stored value and decreasing cell value.
-
-        Parameters:
-        -----------
-        None
-
-        Returns:
-        --------
-        None
-        
-        """
+        """Make agents eat by increasing stored value and decreasing cell value."""
         # If the cell has more food than 10, eats 10 of it (subtract and store)
         if self.environment[self.y][self.x] > 10:
             self.environment[self.y][self.x] -= 10
@@ -140,13 +105,14 @@ class Agent:
         """
         Overwrite the in-built string method to print the id, coordinates and storage of the agent.
 
-        Parameters:
-        -----------
+        Parameters
+        ----------
         None
 
-        Returns:
-        --------
-        str : printed agent attributes
+        Returns
+        -------
+        str
+            Printed agent attributes.
         
         """
         return 'I am agent ' + str(self.id) + ' with location: Y = ' + str(self.y) + \
@@ -154,18 +120,7 @@ class Agent:
 
     # Make agents to sick up their store if it goes over 100
     def sick(self) -> None:
-        """
-        Make agent deposit stored amount if it exceeds 100 units.
-
-        Parameters:
-        -----------
-        None
-
-        Returns:
-        --------
-        None
-        
-        """
+        """Make agent deposit stored amount if it exceeds 100 units."""
         if self.store > 100:
             self.environment[self.y][self.x] += self.store
             self.store = 0
@@ -173,14 +128,15 @@ class Agent:
     # Share food with other agents in the neighbourhood
     def share_with_neighbours(self, neighbourhood: int) -> None:
         """
-        Obtain the list of agents in the neighbourhood and give them equal shares of half the stored value
+        Obtain the list of agents in the neighbourhood and give them equal shares of half the stored value.
 
-        Parameters:
-        -----------
-        neighbourhood : int (defines the radius of neighbourhood in pixels)
+        Parameters
+        ----------
+        neighbourhood : int
+            Defines the radius of neighbourhood in pixels.
 
-        Returns:
-        --------
+        Returns
+        -------
         None
 
         """
@@ -197,18 +153,7 @@ class Agent:
 
     # Add received food to storage
     def share_eater(self) -> None:
-        """
-        Add the content of the received attribute to the store attribute, then set received to 0.
-
-        Parameters:
-        -----------
-        None
-
-        Returns:
-        --------
-        None
-
-        """
+        """Add the content of the received attribute to the store attribute, then set received to 0."""
         self.store += self.received
         self.received = 0
     
@@ -217,13 +162,15 @@ class Agent:
         """
         Measure the distance between self and agent.
 
-        Parameters:
-        -----------
-        agent : agentframework.Agent object
+        Parameters
+        ----------
+        agent : agentframework.Agent
+            An agentframework.Agent object.
 
-        Returns:
-        --------
-        float : distance between self and agent in pixel
+        Returns
+        -------
+        float
+            Distance between self and agent in pixel.
 
         """
         return (((self.x - agent.x)**2) +

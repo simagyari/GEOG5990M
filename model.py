@@ -15,18 +15,7 @@ import bs4
 # Quitter function from tkinter loop
 # From: https://stackoverflow.com/a/55206851
 def quit_me() -> None:
-    """
-    Quit and destroy the tkinter mainloop on closing the model GUI window.
-
-    Parameters:
-    -----------
-    None
-
-    Returns:
-    --------
-    None
-
-    """
+    """Quit and destroy the tkinter mainloop on closing the model GUI window."""
     print('Quitting model runner!')
     root.quit()
     root.destroy()
@@ -37,12 +26,13 @@ def update(frame_number) -> None:
     """
     Update agent position and behaviour.
 
-    Parameters:
-    -----------
-    frame_number : int (set automatically to equal number of model iterations, only used in animation)
+    Parameters
+    ----------
+    frame_number : int
+        Set automatically to equal number of model iterations, only used in animation.
 
-    Returns:
-    --------
+    Returns
+    -------
     None
 
     """
@@ -66,18 +56,7 @@ def update(frame_number) -> None:
 
 # Create and display animation, write outputs
 def run() -> None:
-    """
-    Run the model animation and record output.
-
-    Parameters:
-    -----------
-    None
-
-    Returns:
-    --------
-    None
-
-    """
+    """Run the model animation and record output."""
     # Defining animation part with stopping at num_of_iterations and no looping
     animation = FuncAnimation(fig, update, interval=1, repeat=False, frames=num_of_iterations)
     # Only draw result when there is no parameter sweeping
@@ -99,13 +78,15 @@ def env_reader(infile: str) -> list:
     """
     Read environment list from infile.
 
-    Parameters:
-    -----------
-    infile : str (name of the file containing the environment list)
+    Parameters
+    ----------
+    infile : str
+        Name of the file containing the environment list.
 
-    Returns:
-    --------
-    list : nested (2D) list of the environment
+    Returns
+    -------
+    list
+        Nested (2D) list of the environment.
     """
     with open(infile, 'r') as f:
         reader = csv.reader(f, quoting=csv.QUOTE_NONNUMERIC)  # QUOTE_NONNUMERIC changes everything to float
@@ -119,16 +100,21 @@ def agent_maker(num_of_agents: int, environment: list, ys: list, xs: list) -> li
     """
     Create list of agents used for simulation.
 
-    Parameters:
-    -----------
-    num_of_agents : int (the desired number of agents, default=length of web agent list)
-    environment : list (nested(2D) list of environment)
-    ys : list (list of y coordinates retrieved from the web)
-    xs : list (list of x coordinates retrieved from the web)
+    Parameters
+    ----------
+    num_of_agents : int
+        The desired number of agents, defaults to length of web agent list.
+    environment : list
+        Nested(2D) list of environment.
+    ys : list
+        List of y coordinates retrieved from the web.
+    xs : list
+        List of x coordinates retrieved from the web.
 
-    Returns:
-    --------
-    list : list of agentframework.Agent objects
+    Returns
+    -------
+    list
+        List of agentframework.Agent objects.
 
     """
     # Create empty agents list
@@ -152,13 +138,15 @@ def web_scraper(url: str) -> tuple:
     """
     Scrape the web for agent coordinates.
 
-    Parameters:
-    -----------
-    url : str (the URL of the agent coordinates data on the web)
+    Parameters
+    ----------
+    url : str
+        The URL of the agent coordinates data on the web.
 
-    Returns:
-    --------
-    tuple : tuple of lists ([y coordinates], [x coordinates])
+    Returns
+    -------
+    tuple
+        Tuple of lists ([y coordinates], [x coordinates]).
 
     """
     # Fetch the url and download the text the html site contains
@@ -185,12 +173,13 @@ def env_writer(outfile: str) -> None:
     """
     Write environment list to text file after simulation.
 
-    Parameters:
-    -----------
-    outfile : str (name of the output textfile)
+    Parameters
+    ----------
+    outfile : str
+        Name of the output textfile.
 
-    Returns:
-    --------
+    Returns
+    -------
     None
 
     """
@@ -206,14 +195,15 @@ def agent_printer(agents: list) -> None:
     """
     Print agent properties.
 
-    Parameters:
-    -----------
-    agents : list (list of agentframework.Agent objects)
+    Parameters
+    ----------
+    agents : list
+        List of agentframework.Agent objects.
 
-    Returns:
-    --------
+    Returns
+    -------
     None
-    
+
     """
     for agent in agents:
         print(agent)

@@ -3,13 +3,15 @@ def all_storage_writer(agents: list, outfile: str) -> None:
     """
     Append the cumulative storage of all agents to the end of the outfile.
 
-    Parameters:
-    -----------
-    agents : list (list of agentframework.Agent objects)
-    outfile : str (output filename to append to)
+    Parameters
+    ----------
+    agents : list
+        List of agentframework.Agent objects.
+    outfile : str
+        Output filename to append to.
 
-    Returns:
-    --------
+    Returns
+    -------
     None
 
     """
@@ -26,14 +28,16 @@ def all_storage_writer(agents: list, outfile: str) -> None:
 def agent_storage_writer(agents: int, outfile: str) -> None:
     """
     Append the individual storage of all agents to the end of the outfile.
+    
+    Parameters
+    ----------
+    agents : list
+        List of agentframework.Agent objects.
+    outfile : str
+        Output filename to append to.
 
-    Parameters:
-    -----------
-    agents : list (list of agentframework.Agent objects)
-    outfile : str (output filename to append to)
-
-    Returns:
-    --------
+    Returns
+    -------
     None
     
     """

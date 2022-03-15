@@ -6,4 +6,3 @@ test*
 profilereader.py
 *.dat
 *.prof
-docs*

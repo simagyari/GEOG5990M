@@ -25,18 +25,18 @@ class Agent:
 
     """
     # Instance variables of the class objects
-    def __init__(self, identity: int, environment: list, agents: list, y=None, x=None) -> None:
+    def __init__(self, identity: int, environment: list, agents: list, y: int=None, x: int=None) -> None:
         """Constructor method for Agent class"""
         self.id = identity
         self.environment = environment
         if x == None:
             self.__x = random.randint(0, len(self.environment[0]) - 1)  # get environment width (challenge 4)
         else:
-            self.__x = x
+            self.__x = int(x)
         if y == None:
             self.__y = random.randint(0, len(self.environment) - 1)  # get environment height (challenge 4)
         else:
-            self.__y = y
+            self.__y = int(y)
         self.store = 0
         self.received = 0  # amount received from other agents in sharing session
         self.agents = agents
@@ -53,11 +53,11 @@ class Agent:
 
     def set_x(self, value: int) -> None:
         """Set value of x property."""
-        self.__x = value
+        self.__x = int(value)
 
     def set_y(self, value: int) -> None:
         """Set value of y property."""
-        self.__y = value
+        self.__y = int(value)
 
     # Property values for name-mangled variables
     x = property(get_x, set_x, "I'm the 'x' property!")
@@ -149,7 +149,9 @@ class Agent:
         # Loop through neighbour list
         for neighbour in neighbours:
             neighbour.received += self.store / len(neighbours) / 2  # Divide up half the storage equally
-        self.store /= 2  # Halve stored amount as it has been shared
+        # Only works if there are agents in the neighbour list
+        if len(neighbours) >= 1:
+            self.store /= 2  # Halve stored amount as it has been shared
 
     # Add received food to storage
     def share_eater(self) -> None:

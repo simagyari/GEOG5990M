@@ -1,6 +1,10 @@
 
 *.pyc
-*.txt
+out.txt
+storage.txt
+model_prof.txt
+profiling.txt
+*.rst.txt
 .idea
 profilereader.py
 *.dat
